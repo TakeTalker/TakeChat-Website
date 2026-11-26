@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+# Checks the public pages before they are published (README.md, "Checks"): every HTML page holds
+# an English, a German and a French section, German has no sharp s (owner rule, 2026-11-20), and
+# every relative link points at a file that exists. With --publish it also refuses any TO-FILL
+# marker, so a page with a missing fact (such as the controller's address) is never put online.
+#
+# Usage: scripts/check [--publish]     Exit 0 when the pages pass, 1 otherwise.
+import pathlib
+import re
+import sys
+
+SITE = pathlib.Path(__file__).resolve().parent.parent / "site"
+
+
+def check_page(page, publish):
+    """Returns the problems of one HTML page as lines of text."""
+    text = page.read_text(encoding="utf-8")
+    name = page.relative_to(SITE)
+    problems = []
+    for lang in ("en", "de", "fr"):
+        if f'<section lang="{lang}"' not in text:
+            problems.append(f"{name}: no section in {lang}")
+    german = re.search(r'<section lang="de".*?</section>', text, re.S)
+    if german and "ß" in german.group(0):
+        problems.append(f"{name}: German text uses ß; write ss")
+    for link in re.findall(r'(?:href|src)="([^"#:]+)(?:#[^"]*)?"', text):
+        target = (page.parent / link).resolve()
+        if target.is_dir():
+            target = target / "index.html"
+        if not target.exists():
+            problems.append(f"{name}: link to missing {link}")
+    if publish and "TO-FILL" in text:
+        problems.append(f"{name}: still has a TO-FILL marker")
+    return problems
+
+
+def main():
+    publish = "--publish" in sys.argv[1:]
+    problems = []
+    pages = sorted(SITE.rglob("*.html"))
+    for page in pages:
+        problems += check_page(page, publish)
+    for line in problems:
+        print(line)
+    print(f"check: {len(pages)} pages, {len(problems)} problems")
+    return 1 if problems else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
