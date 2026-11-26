@@ -1,6 +1,6 @@
 # TakeChat public pages
 
-The public web pages of TakeChat, served by GitHub Pages at <https://www.takechat.app>:
+The public web pages of TakeChat, served by GitHub Pages at <https://legal.takechat.app>:
 
 | Page | Address | Used by |
 |---|---|---|
@@ -36,7 +36,9 @@ the publish check refuses the page until it is filled in.
 `--publish` and deploys `site/` to Pages. Nothing else is needed: no build step, no server.
 
 One-time setup (done by the owner): this repository is public; Settings > Pages > Source is
-"GitHub Actions"; the custom domain `www.takechat.app` (`site/CNAME`) has a DNS CNAME record
-`www` -> `taketalker.github.io` at the registrar, and "Enforce HTTPS" is on.
+"GitHub Actions"; the custom domain `legal.takechat.app` (`site/CNAME`) has a DNS CNAME record
+`legal` -> `taketalker.github.io.` at the registrar (EuroDNS), and "Enforce HTTPS" is on.
+Why not www: `www.takechat.app` and `takechat.app` forward to the company site, which the owner
+kept (2026-11-26).
 
 Rollback: revert the commit on `main`; the workflow publishes the previous pages within minutes.
