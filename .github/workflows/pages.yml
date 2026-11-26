@@ -22,7 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check the pages
-        run: python3 scripts/check ${{ github.event_name == 'pull_request' && '' || '--publish' }}
+        # An empty string is false in an expression, so the publish flag is the && branch.
+        run: python3 scripts/check ${{ github.event_name != 'pull_request' && '--publish' || '' }}
 
   deploy:
     if: github.event_name != 'pull_request'
