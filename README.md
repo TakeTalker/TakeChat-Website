@@ -12,6 +12,12 @@ The source of the privacy text is TakeChat-Contracts `docs/privacy/PRIVACY_NOTIC
 there that changes what people are told changes `site/privacy/index.html` in the same week, and the
 app texts that point here stay as they are.
 
+## Before 1.0.0
+
+The privacy page names the controller by name, country and register number only, without a street
+address, for now (owner, 2026-11-26). Before release 1.0.0 the full London address is added, in the
+privacy page and in TakeChat-Contracts `docs/privacy/PRIVACY_NOTICES.md`.
+
 ## Languages
 
 Every page holds the same text in English, German and French, each in a
