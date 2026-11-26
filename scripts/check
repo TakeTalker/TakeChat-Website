@@ -29,7 +29,8 @@ def check_page(page, publish):
             target = target / "index.html"
         if not target.exists():
             problems.append(f"{name}: link to missing {link}")
-    if publish and "TO-FILL" in text:
+    # HTML comments may name the marker when they explain it; only the visible text counts.
+    if publish and "TO-FILL" in re.sub(r"<!--.*?-->", "", text, flags=re.S):
         problems.append(f"{name}: still has a TO-FILL marker")
     return problems
 
