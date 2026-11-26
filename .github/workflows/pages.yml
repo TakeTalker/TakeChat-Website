@@ -1,4 +1,4 @@
-# Publishes site/ to GitHub Pages at www.takechat.app (README.md, "Publishing").
+# Publishes site/ to GitHub Pages at legal.takechat.app (README.md, "Publishing").
 # Pull requests run the checks only; a push to main runs them with --publish, which refuses any
 # TO-FILL marker, and then deploys. A failed check leaves the pages that are online unchanged.
 name: Pages
